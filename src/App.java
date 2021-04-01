@@ -1,13 +1,31 @@
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 import com.utils.*;
 import com.analyzers.*;
 public class App {
     public static ArrayList<Symbol> symbolTable = new ArrayList<Symbol>();
     public static TokenTable tokenTable = new TokenTable();
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws FileNotFoundException, Exception {
         Lexical lexAnalyzer = new Lexical();
-        lexAnalyzer.iterate("if(x <= 4){\nx++;\n}else{\nx--;\n} ABC@");
+        Scanner reader = new Scanner(System.in);
+        
+        
+        System.out.println("Please insert your file path");
+        try{
+            File file = new File(reader.nextLine());
+            Scanner fileReader = new Scanner(file);
+            while(fileReader.hasNextLine()){
+                lexAnalyzer.iterate(fileReader.nextLine());
+            }
+        }catch(FileNotFoundException e){
+            System.out.println("Exception: File not found");
+        }
+        
+        
         /*
+        lexAnalyzer.iterate("if(x <= 4){\nx++;\n}else{\nx--;\n} ABC@");
         lexAnalyzer.test(tokenTable, symbolTable);
         symbolTable.add(new Symbol(1,"keyword"));
         symbolTable.add(new Symbol(2,"keyword"));
