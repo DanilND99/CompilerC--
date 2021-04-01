@@ -1,4 +1,5 @@
-package lib.utils;
+package com.utils;
+
 public class Symbol {
     
 }

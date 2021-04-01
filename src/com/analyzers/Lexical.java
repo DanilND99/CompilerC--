@@ -1,4 +1,5 @@
-package lib.analyzers;
+package com.analyzers;
+
 public class Lexical {
     
 }
