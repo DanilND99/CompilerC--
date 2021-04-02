@@ -9,9 +9,8 @@ public class App {
     public static TokenTable tokenTable = new TokenTable();
     public static void main(String[] args) throws FileNotFoundException, Exception {
         Lexical lexAnalyzer = new Lexical();
+        /*Actual implementation
         Scanner reader = new Scanner(System.in);
-        
-        
         System.out.println("Please insert your file path");
         try{
             File file = new File(reader.nextLine());
@@ -22,8 +21,49 @@ public class App {
         }catch(FileNotFoundException e){
             System.out.println("Exception: File not found");
         }
+        */
+        int test;
+        lexAnalyzer.setPrevious('!');
+        test = lexAnalyzer.charChecker('1');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker('-');
+        System.out.println(test);
+        lexAnalyzer.setPrevious('2');
+        test = lexAnalyzer.charChecker('a');
+        System.out.println(test);
+        lexAnalyzer.setPrevious('d');
+        test = lexAnalyzer.charChecker('1');
+        System.out.println(test);
+        lexAnalyzer.setPrevious('*');
+        test = lexAnalyzer.charChecker('/');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker('$');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker('=');
+        System.out.println(test);
+        lexAnalyzer.setPrevious('/');
+        test = lexAnalyzer.charChecker('*');
+        System.out.println(test);
+        lexAnalyzer.setPrevious('*');
+        test = lexAnalyzer.charChecker('/');
+        System.out.println(test);
+        lexAnalyzer.setPrevious('\t');
+        test = lexAnalyzer.charChecker('a');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker('1');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker('+');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker('\t');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker('\n');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker(' ');
+        System.out.println(test);
+        test = lexAnalyzer.charChecker('A');
+        System.out.println(test);
         
-        
+
         /*
         lexAnalyzer.iterate("if(x <= 4){\nx++;\n}else{\nx--;\n} ABC@");
         lexAnalyzer.test(tokenTable, symbolTable);

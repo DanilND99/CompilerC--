@@ -5,7 +5,8 @@ public class Lexical {
     String lexem = "";
     char previous;
     //lexType and currentType represents the current type of lexem or char stored.
-    //-2 = comment error, -1 = invalid, 0 = none, 1 = Identifier, 2 = Number, 3 = Special, 4 = comment, 5 whitespace
+    //-5 = invalid use of !, -4 = invalid identifier, -3 = invalid number, -2 = comment error, -1 = invalid character
+    //0 = none, 1 = Identifier, 2 = Number, 3 = Special, 4 = comment, 5 whitespace
     int lexType = 0;
     boolean complexSpecial = false;
     boolean commentEnded = false;
@@ -23,15 +24,31 @@ public class Lexical {
         }
     }
 
-    int charChecker(char character){
+    public void setPrevious(char chr){
+        previous = chr;
+    }
+
+    public int charChecker(char character){
+        //Check if there is a miss use of "!".
+        if(previous == '!' && character != '='){
+            return -5;
+        }
         //Check if number
         if(character >= 48 && character <= 57){
+            //Check if there is a "a1" type of identifier and returns -4 if it is.
+            if((previous >= 65 && previous <= 90) || (previous >= 97 && previous <= 122)){
+                return -4;
+            }
             return 2;
         //Check if whitespace, tab or new line
         }else if(character == 32 || character == 9 || character == 10){
             return 5;
         //Check if letter
         }else if((character >= 65 && character <= 90) || (character >= 97 && character <= 122)){
+            //Check if there is a "1a" type of number and returns -3 if it is.
+            if(previous >= 48 && previous <= 57){
+                return -3;
+            }
             return 1;
         }else{
             switch(character){
@@ -72,6 +89,8 @@ public class Lexical {
                 case '*':
                     //Checks if is an open comment
                     if(previous == '/'){
+                        //lexType for testing purposes
+                        lexType = 4;
                         return 4;
                     }
                     return 3;
