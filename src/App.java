@@ -9,19 +9,23 @@ public class App {
     public static TokenTable tokenTable = new TokenTable();
     public static void main(String[] args) throws FileNotFoundException, Exception {
         Lexical lexAnalyzer = new Lexical();
-        /*Actual implementation
+        /*Actual implementation*/
+        
         Scanner reader = new Scanner(System.in);
         System.out.println("Please insert your file path");
         try{
             File file = new File(reader.nextLine());
             Scanner fileReader = new Scanner(file);
             while(fileReader.hasNextLine()){
-                lexAnalyzer.iterate(fileReader.nextLine());
+                lexAnalyzer.analyze(fileReader.nextLine(),tokenTable, symbolTable);
             }
+            tokenTable.printTable();
+            printSymbolTable();
         }catch(FileNotFoundException e){
             System.out.println("Exception: File not found");
         }
-        */
+        
+        /*
         int test;
         lexAnalyzer.setPrevious('!');
         test = lexAnalyzer.charChecker('1');
@@ -62,7 +66,7 @@ public class App {
         System.out.println(test);
         test = lexAnalyzer.charChecker('A');
         System.out.println(test);
-        
+        */
 
         /*
         lexAnalyzer.iterate("if(x <= 4){\nx++;\n}else{\nx--;\n} ABC@");

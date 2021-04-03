@@ -94,10 +94,10 @@ public class TokenTable {
     //Gets the corresponding key to a specified value, returns -1 if the value is not found.
     public int getKey(String value){
         for(Entry<Integer, String> entry: table.entrySet()) {
-            if(entry.getValue() == value) {
+            if(entry.getValue().equals(value)) {
               return entry.getKey();
             }
-          }
+        }
         return -1;
     }
 }

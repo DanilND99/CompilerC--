@@ -10,23 +10,118 @@ public class Lexical {
     int lexType = 0;
     boolean complexSpecial = false;
     boolean commentEnded = false;
+    boolean commentBegin = false;
 
     public void analyze(String line, TokenTable tokTable, ArrayList<Symbol> symTable) throws Exception{
         char character;
         int currentType;
         for(int i = 0;i < line.length();i++){
             character = line.charAt(i);
-            if(lexType == 0){
-                //Ignorar caracter o verificar si va a terminar
-            }else{
-                
+            currentType = charChecker(character);
+            if(currentType < 0){
+                System.out.println("Error");
+                //Implement exceptions here
+                return;
             }
+            switch(lexType){
+                case 0:
+                    if(currentType != 5){
+                        lexType = currentType;
+                        lexem = lexem.concat("" + character);
+                    }
+                    previous = character;
+                    break;
+                case 1:
+                case 2:
+                    if(currentType == 1 || currentType == 2){
+                        lexem = lexem.concat("" + character);
+                        previous = character;
+                        break;
+                        //Check if multiple identifier with a letter different
+                    }
+                    boolean exist = tokTable.find(lexem);
+                    if(!exist){
+                       tokTable.set(lexem); 
+                    }
+                    int position = tokTable.getKey(lexem);
+                    if(position < 9 && position > 0){
+                        symTable.add(new Symbol(position,"keyword"));
+                    }else if(lexType == 1){
+                        symTable.add(new Symbol(position,"identifier"));
+                    }else if(lexType == 2){
+                        symTable.add(new Symbol(position,"number"));
+                    }
+                    previous = character;
+                    if(currentType == 3){
+                        lexem = "" + character;
+                        lexType = currentType;
+                    }else if(currentType == 5){
+                        lexem = "";
+                        lexType = 0;
+                    }
+                    break;
+                case 3:
+                    if(commentBegin){
+                        previous = ' ';
+                        lexType = currentType;
+                        lexem = "";
+                        commentBegin = false;
+                        break;
+                    }
+                    if(currentType == 3 && complexSpecial){
+                        lexem = lexem.concat("" + character);
+                        complexSpecial = false;
+                        currentType = 5;
+                    }
+                    symTable.add(new Symbol(tokTable.getKey(lexem),"special"));
+                    previous = character;
+                    if(currentType == 5){
+                        lexem = "";
+                        lexType = 0;
+                    }else{
+                        lexem = "" + character;
+                        lexType = currentType;
+                    }
+                    break;
+                case 4:
+                    if(commentEnded){
+                        lexType = 0;
+                        character = ' ';
+                        commentEnded = false;
+                    }
+                    previous = character;
+                    break;
+            }
+        }
+        
+        if(!lexem.equals("")){
+            boolean exist = tokTable.find(lexem);
+            if(!exist){
+                tokTable.set(lexem); 
+            }
+            int position = tokTable.getKey(lexem);
+            switch(lexType){
+                case 1:
+                    if(position < 9 && position > 0){
+                        symTable.add(new Symbol(position,"keyword"));
+                    }else{
+                        symTable.add(new Symbol(position,"identifier"));
+                    }
+                    break;
+                case 2:
+                    symTable.add(new Symbol(position,"number"));
+                    break;
+                case 3:
+                    symTable.add(new Symbol(position,"special"));
+                    break;
+            }
+            lexType = 0;
+            lexem = "";
+            previous = ' ';
         }
     }
 
-    public void setPrevious(char chr){
-        previous = chr;
-    }
+    
 
     public int charChecker(char character){
         //Check if there is a miss use of "!".
@@ -71,7 +166,6 @@ public class Lexical {
                 case '=':
                     if(previous == '!' || previous == '<' || previous == '>' || previous == '='){
                         complexSpecial = true;
-                        previous = 10;
                     }
                     return 3;
                 case '/':
@@ -82,15 +176,13 @@ public class Lexical {
                             return -2;
                         }
                         commentEnded = true;
-                        previous = 10;
                         return 0;
                     }
                     return 3;
                 case '*':
                     //Checks if is an open comment
                     if(previous == '/'){
-                        //lexType for testing purposes
-                        lexType = 4;
+                        commentBegin = true;
                         return 4;
                     }
                     return 3;
@@ -101,7 +193,9 @@ public class Lexical {
         }
     }
 
-
+    public void setPrevious(char chr){
+        previous = chr;
+    }
     public void iterate(String x){
         char character;
         System.out.println(x);
