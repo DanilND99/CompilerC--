@@ -202,7 +202,7 @@ public class Lexical {
         //Check if number.
         if(character >= 48 && character <= 57){
             //Check if there is a "a1" type of identifier and returns -4 if it is.
-            if((previous >= 65 && previous <= 90) || (previous >= 97 && previous <= 122)){
+            if((previous >= 65 && previous <= 90) || (previous >= 97 && previous <= 122) && lexType != 4){
                 return -4;
             }
             return 2;
@@ -212,7 +212,7 @@ public class Lexical {
         //Check if letter.
         }else if((character >= 65 && character <= 90) || (character >= 97 && character <= 122)){
             //Check if there is a "1a" type of number and returns -3 if it is.
-            if(previous >= 48 && previous <= 57){
+            if(previous >= 48 && previous <= 57 && lexType != 4){
                 return -3;
             }
             return 1;

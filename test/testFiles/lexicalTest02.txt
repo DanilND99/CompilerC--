@@ -1,0 +1,3 @@
+int VariAble = 5;
+VariAble = 5 + VariAble;
+output VariAble;

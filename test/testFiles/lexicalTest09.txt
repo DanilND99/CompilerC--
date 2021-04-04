@@ -1,0 +1,4 @@
+int x;
+/*Soy un
+comentario multilinea
+*/

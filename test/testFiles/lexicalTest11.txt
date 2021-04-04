@@ -1,0 +1,1 @@
+input(/*Soy un comentario con un caracter invalido @*/)

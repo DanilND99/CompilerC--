@@ -1,0 +1,5 @@
+int x;
+int y;
+input x; input y;
+int z; z = 3x + y;
+output z;

@@ -6,7 +6,7 @@ public class InvalidIdentifierException extends Exception {
      */
     private static final long serialVersionUID = 1L;
     public InvalidIdentifierException(){
-        super("Sintax Error: Invalid identifier detected.");
+        super("Syntax Error: Invalid identifier detected.");
     }
     public InvalidIdentifierException(String message){
         super(message);

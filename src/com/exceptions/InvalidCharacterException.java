@@ -7,7 +7,7 @@ public class InvalidCharacterException extends Exception {
      */
     private static final long serialVersionUID = 1L;
     public InvalidCharacterException(){
-        super("Invalid character detected in source code");
+        super("Invalid character detected in source code.");
     }
     public InvalidCharacterException(String message){
         super(message);

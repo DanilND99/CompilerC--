@@ -1,0 +1,5 @@
+int var;
+input var;
+if(var <= 10){
+    do something*/
+}

@@ -1,0 +1,5 @@
+Expected:
+Invalid use of close comment statement.
+
+Actual:
+Invalid use of close comment statement.

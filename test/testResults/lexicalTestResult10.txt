@@ -1,0 +1,71 @@
+Expected:
+------Token table------
+Entry: 1   Value: if
+Entry: 2   Value: else
+Entry: 3   Value: int
+Entry: 4   Value: while
+Entry: 5   Value: input
+Entry: 6   Value: output
+Entry: 7   Value: void
+Entry: 8   Value: return
+Entry: 9   Value: +
+Entry: 10   Value: -
+Entry: 11   Value: *
+Entry: 12   Value: /
+Entry: 13   Value: <
+Entry: 14   Value: >
+Entry: 15   Value: <=
+Entry: 16   Value: >=
+Entry: 17   Value: ==
+Entry: 18   Value: !=
+Entry: 19   Value: =
+Entry: 20   Value: ;
+Entry: 21   Value: ,
+Entry: 22   Value: (
+Entry: 23   Value: )
+Entry: 24   Value: [
+Entry: 25   Value: ]
+Entry: 26   Value: {
+Entry: 27   Value: }
+Entry: 28   Value: If
+
+------Symbol table------
+Position: 3   Type: keyword
+Position: 28   Type: identifier
+Position: 20   Type: special
+
+Actual:
+------Token table------
+Entry: 1   Value: if
+Entry: 2   Value: else
+Entry: 3   Value: int
+Entry: 4   Value: while
+Entry: 5   Value: input
+Entry: 6   Value: output
+Entry: 7   Value: void
+Entry: 8   Value: return
+Entry: 9   Value: +
+Entry: 10   Value: -
+Entry: 11   Value: *
+Entry: 12   Value: /
+Entry: 13   Value: <
+Entry: 14   Value: >
+Entry: 15   Value: <=
+Entry: 16   Value: >=
+Entry: 17   Value: ==
+Entry: 18   Value: !=
+Entry: 19   Value: =
+Entry: 20   Value: ;
+Entry: 21   Value: ,
+Entry: 22   Value: (
+Entry: 23   Value: )
+Entry: 24   Value: [
+Entry: 25   Value: ]
+Entry: 26   Value: {
+Entry: 27   Value: }
+Entry: 28   Value: If
+
+------Symbol table------
+Position: 3   Type: keyword
+Position: 28   Type: identifier
+Position: 20   Type: special

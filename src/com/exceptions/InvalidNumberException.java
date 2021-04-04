@@ -6,7 +6,7 @@ public class InvalidNumberException extends Exception {
      */
     private static final long serialVersionUID = 1L;
     public InvalidNumberException(){
-        super("Sintax Error: Invalid number detected.");
+        super("Syntax Error: Invalid number detected.");
     }
     public InvalidNumberException(String message){
         super(message);

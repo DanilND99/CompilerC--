@@ -1,0 +1,5 @@
+Expected:
+Invalid character detected in source code
+
+Actual:
+Invalid character detected in source code

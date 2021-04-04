@@ -27,7 +27,7 @@ public class App {
             printSymbolTable();
         }catch(FileNotFoundException e){
             //If the file doesn't exist. Returns this exception.
-            System.out.println("Exception: File not found");
+            System.out.println("Exception: File not found.");
         }catch(Exception e){
             //Prints the message of any exception that happens in the analyze method.
             System.out.println(e.getMessage());
