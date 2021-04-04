@@ -5,87 +5,35 @@ import java.io.FileNotFoundException;
 import com.utils.*;
 import com.analyzers.*;
 public class App {
+    //Declaration of the Token and Symbol tables
     public static ArrayList<Symbol> symbolTable = new ArrayList<Symbol>();
     public static TokenTable tokenTable = new TokenTable();
     public static void main(String[] args) throws FileNotFoundException, Exception {
-        Lexical lexAnalyzer = new Lexical();
-        /*Actual implementation*/
-        
+        //Declaration of the lexical analyzer.
+        Lexical lexAnalyzer = new Lexical();    
         Scanner reader = new Scanner(System.in);
         System.out.println("Please insert your file path");
         try{
+            //Recieves the file path and instanciates the file.
             File file = new File(reader.nextLine());
             Scanner fileReader = new Scanner(file);
             while(fileReader.hasNextLine()){
+                //Calls the analyze method of the lexical analyzer with every line of the file to fill the tables.
                 lexAnalyzer.analyze(fileReader.nextLine(),tokenTable, symbolTable);
             }
+            fileReader.close();
+            //Prints the tables.
             tokenTable.printTable();
             printSymbolTable();
         }catch(FileNotFoundException e){
+            //If the file doesn't exist. Returns this exception.
             System.out.println("Exception: File not found");
+        }catch(Exception e){
+            //Prints the message of any exception that happens in the analyze method.
+            System.out.println(e.getMessage());
+        }finally{
+            reader.close();
         }
-        
-        /*
-        int test;
-        lexAnalyzer.setPrevious('!');
-        test = lexAnalyzer.charChecker('1');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker('-');
-        System.out.println(test);
-        lexAnalyzer.setPrevious('2');
-        test = lexAnalyzer.charChecker('a');
-        System.out.println(test);
-        lexAnalyzer.setPrevious('d');
-        test = lexAnalyzer.charChecker('1');
-        System.out.println(test);
-        lexAnalyzer.setPrevious('*');
-        test = lexAnalyzer.charChecker('/');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker('$');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker('=');
-        System.out.println(test);
-        lexAnalyzer.setPrevious('/');
-        test = lexAnalyzer.charChecker('*');
-        System.out.println(test);
-        lexAnalyzer.setPrevious('*');
-        test = lexAnalyzer.charChecker('/');
-        System.out.println(test);
-        lexAnalyzer.setPrevious('\t');
-        test = lexAnalyzer.charChecker('a');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker('1');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker('+');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker('\t');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker('\n');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker(' ');
-        System.out.println(test);
-        test = lexAnalyzer.charChecker('A');
-        System.out.println(test);
-        */
-
-        /*
-        lexAnalyzer.iterate("if(x <= 4){\nx++;\n}else{\nx--;\n} ABC@");
-        lexAnalyzer.test(tokenTable, symbolTable);
-        symbolTable.add(new Symbol(1,"keyword"));
-        symbolTable.add(new Symbol(2,"keyword"));
-        symbolTable.add(new Symbol(15,"special"));
-        symbolTable.add(new Symbol(13,"special"));
-        symbolTable.add(new Symbol(6,"keyword"));
-        tokenTable.set("variable");
-        System.out.println(tokenTable.find("variable")+ "\n");
-        System.out.println(tokenTable.getValue(4)+ "\n");
-        System.out.println(tokenTable.find("variabe")+ "\n");
-        System.out.println(tokenTable.getKey("variable")+ "\n");
-        System.out.println(tokenTable.getKey("variabe")+ "\n");
-        lexAnalyzer.test(tokenTable, symbolTable);
-        tokenTable.printTable();
-        printSymbolTable();
-        */
     }
 
     //Print the symbol table.

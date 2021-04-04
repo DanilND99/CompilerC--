@@ -6,7 +6,10 @@ import java.util.HashMap;
 public class TokenTable {
     private int index = 1;
     HashMap<Integer,String> table = new HashMap<Integer, String>();
-    
+    /*
+    An object that contains a HashMap representing the token table
+    and an index to increment the key of the Map with every new entry.
+    */
     //Default initialization of the token table.
     public TokenTable(){
         table.put(index, "if");
