@@ -4,6 +4,7 @@ public class InvalidCharacterException extends Exception {
     
     /**
      serialVersionUID is not needed but the IDE keep asking for it.
+     The special exception when an invalid character is detected.
      */
     private static final long serialVersionUID = 1L;
     public InvalidCharacterException(){

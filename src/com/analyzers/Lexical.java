@@ -19,7 +19,7 @@ public class Lexical {
     boolean commentEnded = false;
     boolean commentBegin = false;
     /*
-    analyze recieves a line of the file and the tables to determinate all the symbols in the line,
+    analyze recieves a line of the file and the tables to determinate and store all the symbols in the line,
     it can also maintain a comment state through multiple calls if needed.
     */
     public void analyze(String line, TokenTable tokTable, ArrayList<Symbol> symTable) throws Exception{
