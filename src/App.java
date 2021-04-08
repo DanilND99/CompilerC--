@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import com.utils.*;
 import com.analyzers.*;
+import com.exceptions.InvalidOpenCommentException;
 public class App {
     //Declaration of the Token and Symbol tables
     public static ArrayList<Symbol> symbolTable = new ArrayList<Symbol>();
@@ -22,6 +23,10 @@ public class App {
                 lexAnalyzer.analyze(fileReader.nextLine(),tokenTable, symbolTable);
             }
             fileReader.close();
+            //If the file ends in an open comment, throw open comment exception.
+            if(lexAnalyzer.getLexType() == 4){
+                throw new InvalidOpenCommentException();
+            }
             //Prints the tables.
             tokenTable.printTable();
             printSymbolTable();

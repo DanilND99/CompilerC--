@@ -1,15 +1,15 @@
 package com.exceptions;
 
-public class InvalidCommentException extends Exception{
+public class InvalidCloseCommentException extends Exception{
     /**
      serialVersionUID is not needed but the IDE keep asking for it.
      The special exception when an invalid comment closure is detected.
      */
     private static final long serialVersionUID = 1L;
-    public InvalidCommentException(){
+    public InvalidCloseCommentException(){
         super("Invalid use of close comment statement.");
     }
-    public InvalidCommentException(String message){
+    public InvalidCloseCommentException(String message){
         super(message);
     }
 }

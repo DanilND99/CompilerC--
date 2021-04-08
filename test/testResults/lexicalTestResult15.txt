@@ -1,0 +1,5 @@
+Expected:
+Lexical Error: Comment never closed.
+
+Actual:
+Lexical Error: Comment never closed.

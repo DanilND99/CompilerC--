@@ -36,7 +36,7 @@ public class Lexical {
                     case -1:
                         throw new InvalidCharacterException();
                     case -2:
-                        throw new InvalidCommentException();
+                        throw new InvalidCloseCommentException();
                     case -3:   
                         throw new InvalidNumberException();
                     case -4:
@@ -268,5 +268,9 @@ public class Lexical {
                     return -1;
             }
         }
+    }
+    //Gets the type of the last character analyzed by the lexical analyzer.
+    public int getLexType(){
+        return lexType;
     }
 }
