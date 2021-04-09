@@ -1,1 +1,6 @@
-input(/*Soy un comentario con un caracter invalido @*/)
+input(/*Soy un comentario con un caracter invalido @
+un uso invalido de "!"
+un identificador con numero x1
+un numero con letra 1a
+y otro comentario sin cerrar /*
+*/)
