@@ -22,12 +22,14 @@ public class Lexical {
     analyze recieves a line of the file and the tables to determinate and store all the symbols in the line,
     it can also maintain a comment state through multiple calls if needed.
     */
-    public void analyze(String line, TokenTable tokTable, ArrayList<Symbol> symTable) throws Exception{
+    public void analyze(String line, Table tokTable, Table idTable, Table numTable, ArrayList<Token> stream) throws Exception{
         char character;
         int currentType;
         //Iterates through the characters in the line.
         for(int i = 0;i < line.length();i++){
             character = line.charAt(i);
+            int tokenEntry = 0;
+            int symbolEntry = 0;
             //Set the type of the current character.
             currentType = charChecker(character);
             //if an error is returned, throws back the error type.
@@ -67,22 +69,23 @@ public class Lexical {
                         previous = character;
                         break;
                     }
-                    //If it recieved a differnt type of character.
-                    //Check if the lexem exist and if it does not, add it to the token table.
-                    boolean exist = tokTable.find(lexem);
-                    if(!exist){
-                       tokTable.set(lexem); 
+                    // Set the lexem in the token table and return its entry.
+                    tokenEntry = tokTable.getAndSetToken(lexem, lexType);
+                    // If the lexem was a number or identifier, adds it to the corresponding symbol table.
+                    if(!tokTable.find(lexem)){
+                        if(lexType == 1){
+                            symbolEntry = idTable.getAndSetSymbol(lexem);
+                        }else if(lexType == 2){
+                            symbolEntry = numTable.getAndSetSymbol(lexem);
+                        }
+                    }else{
+                        //In the case there is an identifier "identifier" or "number", add it to the idTable.
+                        if(lexem.equals("identifier") || lexem.equals("number")){
+                            symbolEntry = idTable.getAndSetSymbol(lexem);
+                        }
                     }
-                    //Set the lexem position in the token table and its apropiate type into the symbol table.
-                    //Note: It cannot be a special character because you can only enter here if the previous character is a number or letter.
-                    int position = tokTable.getKey(lexem);
-                    if(position < 9 && position > 0){
-                        symTable.add(new Symbol(position,"keyword"));
-                    }else if(lexType == 1){
-                        symTable.add(new Symbol(position,"identifier"));
-                    }else if(lexType == 2){
-                        symTable.add(new Symbol(position,"number"));
-                    }
+                    //Create and add the token to the stream.
+                    stream.add(new Token(tokenEntry, symbolEntry));
                     previous = character;
                     //If the current character is a special symbol, then clean the lexem and add it.
                     if(currentType == 3){
@@ -119,8 +122,10 @@ public class Lexical {
                         complexSpecial = false;
                         currentType = 5;
                     }
-                    //Add the previous lexem into the symbol table.
-                    symTable.add(new Symbol(tokTable.getKey(lexem),"special"));
+                    //Add the previous lexem into the token table.
+                    tokenEntry = tokTable.getAndSetToken(lexem, lexType);
+                    //Add the token into the stream.
+                    stream.add(new Token(tokenEntry, symbolEntry));
                     previous = character;
                     //If the current character is a whitespace, clean the lexem and set type to none.
                     if(currentType == 5){
@@ -156,29 +161,27 @@ public class Lexical {
             if(lexem.equals("!")){
                 throw new InvalidExclamationException();
             }
-            //Check if the lexem exist.
-            boolean exist = tokTable.find(lexem);
-            if(!exist){
-                //Adde it to the token table.
-                tokTable.set(lexem); 
-            }
-            int position = tokTable.getKey(lexem);
+            //Add the lexem into the token table.
+            int tokenEntry = tokTable.getAndSetToken(lexem, lexType);
+            int symbolEntry = 0;
             //Add the lexem to the symbol table according to its type.
             switch(lexType){
                 case 1:
-                    if(position < 9 && position > 0){
-                        symTable.add(new Symbol(position,"keyword"));
+                    if(!tokTable.find(lexem)){
+                        symbolEntry = idTable.getAndSetSymbol(lexem);
                     }else{
-                        symTable.add(new Symbol(position,"identifier"));
+                        //In the case there is an identifier "identifier" or "number", add it to the idTable.
+                        if(lexem.equals("identifier") || lexem.equals("number")){
+                            symbolEntry = idTable.getAndSetSymbol(lexem);
+                        }
                     }
                     break;
                 case 2:
-                    symTable.add(new Symbol(position,"number"));
-                    break;
-                case 3:
-                    symTable.add(new Symbol(position,"special"));
+                    symbolEntry = numTable.getAndSetSymbol(lexem);
                     break;
             }
+            //Add the token to the stream.
+            stream.add(new Token(tokenEntry, symbolEntry));
             //Clean the lexem, set previous to whitespace, and set the lexem type to none.
             lexType = 0;
             lexem = "";

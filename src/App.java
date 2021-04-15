@@ -6,9 +6,11 @@ import com.utils.*;
 import com.analyzers.*;
 import com.exceptions.InvalidOpenCommentException;
 public class App {
-    //Declaration of the Token and Symbol tables
-    public static ArrayList<Symbol> symbolTable = new ArrayList<Symbol>();
-    public static TokenTable tokenTable = new TokenTable();
+    //Declaration of the Token Table, Token Stream and Symbol tables.
+    public static ArrayList<Token> tokenStream = new ArrayList<Token>();
+    public static Table tokenTable = new Table("Token");
+    public static Table idSymbolTable = new Table("Identifier Symbol");
+    public static Table numSymbolTable = new Table("Number Symbol");
     public static void main(String[] args) throws FileNotFoundException, Exception {
         //Declaration of the lexical analyzer.
         Lexical lexAnalyzer = new Lexical();    
@@ -20,7 +22,7 @@ public class App {
             Scanner fileReader = new Scanner(file);
             while(fileReader.hasNextLine()){
                 //Calls the analyze method of the lexical analyzer with every line of the file to fill the tables.
-                lexAnalyzer.analyze(fileReader.nextLine(),tokenTable, symbolTable);
+                lexAnalyzer.analyze(fileReader.nextLine(),tokenTable, idSymbolTable, numSymbolTable, tokenStream);
             }
             fileReader.close();
             //If the file ends in an open comment, throw open comment exception.
@@ -29,7 +31,9 @@ public class App {
             }
             //Prints the tables.
             tokenTable.printTable();
-            printSymbolTable();
+            idSymbolTable.printTable();
+            numSymbolTable.printTable();
+            printTokenStream();
         }catch(FileNotFoundException e){
             //If the file doesn't exist. Returns this exception.
             System.out.println("Exception: File not found.");
@@ -41,11 +45,15 @@ public class App {
         }
     }
 
-    //Print the symbol table.
-    public static void printSymbolTable(){
-        System.out.println("------Symbol table------");
-        for(int i = 0; i < symbolTable.size();i++){
-            System.out.println("Position: "+ symbolTable.get(i).getPosition() + "   Type: " + symbolTable.get(i).getType());
+    //Print the token stream.
+    public static void printTokenStream(){
+        System.out.println("------Token Stream------");
+        for(int i = 0; i < tokenStream.size();i++){
+            if(tokenStream.get(i).getSymbolEntry() == 0){
+                System.out.println("<"+ tokenStream.get(i).getTokenEntry() + ">");
+            }else{
+                System.out.println("<"+ tokenStream.get(i).getTokenEntry() + "," + tokenStream.get(i).getSymbolEntry() + ">");
+            }
         }
         System.out.println("");
         return;
