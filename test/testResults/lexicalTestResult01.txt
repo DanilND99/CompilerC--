@@ -1,8 +1,8 @@
 Expected:
-------Token table------
-Entry: 1   Value: if
-Entry: 2   Value: else
-Entry: 3   Value: int
+------Token Table------
+Entry: 1   Value: if   
+Entry: 2   Value: else 
+Entry: 3   Value: int  
 Entry: 4   Value: while
 Entry: 5   Value: input
 Entry: 6   Value: output
@@ -28,40 +28,44 @@ Entry: 25   Value: ]
 Entry: 26   Value: {
 Entry: 27   Value: }
 
-------Symbol table------
-Position: 1   Type: keyword
-Position: 2   Type: keyword
-Position: 3   Type: keyword
-Position: 4   Type: keyword
-Position: 5   Type: keyword
-Position: 6   Type: keyword
-Position: 7   Type: keyword
-Position: 8   Type: keyword
-Position: 9   Type: special
-Position: 10   Type: special
-Position: 11   Type: special
-Position: 12   Type: special
-Position: 13   Type: special
-Position: 14   Type: special
-Position: 15   Type: special
-Position: 16   Type: special
-Position: 17   Type: special
-Position: 18   Type: special
-Position: 19   Type: special
-Position: 20   Type: special
-Position: 21   Type: special
-Position: 22   Type: special
-Position: 23   Type: special
-Position: 24   Type: special
-Position: 25   Type: special
-Position: 26   Type: special
-Position: 27   Type: special
+------Identifier Symbol Table------
+
+------Number Symbol Table------
+
+------Token Stream------
+<1>
+<2>
+<3>
+<4>
+<5>
+<6>
+<7>
+<8>
+<9>
+<10>
+<11>
+<12>
+<13>
+<14>
+<15>
+<16>
+<17>
+<18>
+<19>
+<20>
+<21>
+<22>
+<23>
+<24>
+<25>
+<26>
+<27>
 
 Actual:
-------Token table------
-Entry: 1   Value: if
-Entry: 2   Value: else
-Entry: 3   Value: int
+------Token Table------
+Entry: 1   Value: if   
+Entry: 2   Value: else 
+Entry: 3   Value: int  
 Entry: 4   Value: while
 Entry: 5   Value: input
 Entry: 6   Value: output
@@ -87,31 +91,35 @@ Entry: 25   Value: ]
 Entry: 26   Value: {
 Entry: 27   Value: }
 
-------Symbol table------
-Position: 1   Type: keyword
-Position: 2   Type: keyword
-Position: 3   Type: keyword
-Position: 4   Type: keyword
-Position: 5   Type: keyword
-Position: 6   Type: keyword
-Position: 7   Type: keyword
-Position: 8   Type: keyword
-Position: 9   Type: special
-Position: 10   Type: special
-Position: 11   Type: special
-Position: 12   Type: special
-Position: 13   Type: special
-Position: 14   Type: special
-Position: 15   Type: special
-Position: 16   Type: special
-Position: 17   Type: special
-Position: 18   Type: special
-Position: 19   Type: special
-Position: 20   Type: special
-Position: 21   Type: special
-Position: 22   Type: special
-Position: 23   Type: special
-Position: 24   Type: special
-Position: 25   Type: special
-Position: 26   Type: special
-Position: 27   Type: special
+------Identifier Symbol Table------
+
+------Number Symbol Table------
+
+------Token Stream------
+<1>
+<2>
+<3>
+<4>
+<5>
+<6>
+<7>
+<8>
+<9>
+<10>
+<11>
+<12>
+<13>
+<14>
+<15>
+<16>
+<17>
+<18>
+<19>
+<20>
+<21>
+<22>
+<23>
+<24>
+<25>
+<26>
+<27>

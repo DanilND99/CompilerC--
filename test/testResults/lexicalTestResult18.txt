@@ -5,14 +5,18 @@ Entry: 2   Value: identifier
 Entry: 3   Value: =
 Entry: 4   Value: number
 Entry: 5   Value: ;
-Entry: 6   Value: +
-Entry: 7   Value: output
+Entry: 6   Value: output
+Entry: 7   Value: (
+Entry: 8   Value: +
+Entry: 9   Value: )
 
 ------Identifier Symbol Table------
-Entry: 1   Value: VariAble
+Entry: 1   Value: identifier
+Entry: 2   Value: number
 
 ------Number Symbol Table------
-Entry: 1   Value: 5
+Entry: 1   Value: 1
+Entry: 2   Value: 2
 
 ------Token Stream------
 <1>
@@ -20,14 +24,17 @@ Entry: 1   Value: 5
 <3>
 <4,1>
 <5>
-<2,1>
+<1>
+<2,2>
 <3>
-<4,1>
-<6>
-<2,1>
+<4,2>
 <5>
+<6>
 <7>
 <2,1>
+<8>
+<2,2>
+<9>
 <5>
 
 Actual:
@@ -37,14 +44,18 @@ Entry: 2   Value: identifier
 Entry: 3   Value: =
 Entry: 4   Value: number
 Entry: 5   Value: ;
-Entry: 6   Value: +
-Entry: 7   Value: output
+Entry: 6   Value: output
+Entry: 7   Value: (
+Entry: 8   Value: +
+Entry: 9   Value: )
 
 ------Identifier Symbol Table------
-Entry: 1   Value: VariAble
+Entry: 1   Value: identifier
+Entry: 2   Value: number
 
 ------Number Symbol Table------
-Entry: 1   Value: 5
+Entry: 1   Value: 1
+Entry: 2   Value: 2
 
 ------Token Stream------
 <1>
@@ -52,12 +63,15 @@ Entry: 1   Value: 5
 <3>
 <4,1>
 <5>
-<2,1>
+<1>
+<2,2>
 <3>
-<4,1>
-<6>
-<2,1>
+<4,2>
 <5>
+<6>
 <7>
 <2,1>
+<8>
+<2,2>
+<9>
 <5>
