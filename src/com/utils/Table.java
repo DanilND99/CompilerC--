@@ -1,14 +1,19 @@
 package com.utils;
 import java.util.Map.Entry;
 import java.util.HashMap;
+import java.util.ArrayList;
 public class Table {
     private int index = 1;
     String name ="";
     HashMap<Integer,String> table = new HashMap<Integer, String>();
+    ArrayList<String> identifierType = new ArrayList<String>();
     
+
     //Sets the name of the table on creation.
     public Table(String name){
         this.name = name;
+        //Initialize the identifierType so it matches 1 to 1 to the map.
+        identifierType.add("Init");
     }
 
     /*
@@ -19,6 +24,8 @@ public class Table {
     public int getAndSetSymbol(String lexem){
         if(!find(lexem)){
             set(lexem);
+            //Add the type of the identifier Symbol Table and sets it to "None". For syntax and semantic use.
+            identifierType.add("None");
         }
         return getKey(lexem);
     }
@@ -108,5 +115,25 @@ public class Table {
             }
         }
         return -1;
+    }
+
+    //Returns the identifier type of the specied identifier by its key on the map.
+    public String getIdentifierType(int key){
+        return identifierType.get(key);
+    }
+
+    //Sets the identifier type at the specified identifier.
+    public void setIdentifierType(int key, String type){
+        identifierType.set(key, type);
+    }
+
+    //Print the identifier symbol table with its type.
+    public void printIdentifierTable(){
+        System.out.println("------" + name + " Table------");
+        for(int i = 1; i < index;i++){
+            System.out.println("Entry: "+ i + "   Value: " + table.get(i) + "   Type: " + identifierType.get(i));
+        }
+        System.out.println("");
+        return;
     }
 }

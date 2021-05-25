@@ -31,7 +31,7 @@ public class App {
             }
             //Prints the tables.
             tokenTable.printTable();
-            idSymbolTable.printTable();
+            idSymbolTable.printIdentifierTable();
             numSymbolTable.printTable();
             printTokenStream();
         }catch(FileNotFoundException e){
