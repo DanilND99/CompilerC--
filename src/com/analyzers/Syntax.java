@@ -11,7 +11,9 @@ public class Syntax {
     Table numTable = new Table("Number Symbol");
     ArrayList<Token> stream = new ArrayList<Token>();
 
+    //Main function for the Syntax analyzer where calls the starting non-terminal symbol and checks if we arrived at the end of the file.
     public void syntaxMain(Table tokTable, Table idTable, Table numTable, ArrayList<Token> stream) throws Exception{
+        //Add the end of file token
         stream.add(new Token(tokTable.getAndSetToken("$", 3), 0));
         this.tokTable = tokTable;
         this.idTable = idTable;
@@ -24,13 +26,14 @@ public class Syntax {
             idTable.printIdentifierTable();
             System.out.println("Syntax Analysis finished, no errors found.");
         }else{
-            throw new GenericSyntaxException("Unexpected end of file. Token: " + tokenPointer);
+            throw new GenericSyntaxException("Unexpected end of file. Token: " + tokenValue);
         }
     }
 
-    //Match
+    //Checks if the passed token is the same as the current token, if not throws an exception.
     void match(String expected) throws Exception{
         if(expected.equals(tokenValue)){
+            //Get the next token.
             tokenPointer++;
             tokenValue = tokTable.getValue(stream.get(tokenPointer).getTokenEntry());
         }else{
@@ -38,30 +41,31 @@ public class Syntax {
         }
     }
 
+    /*
+    The CFG programmed in Recursive Descent Approach all the methods below share the same structure.
+    An if or switch statement with the first+ values that the non-terminal symbol can have, if there is not a first+ then, throw and exception.
+    */
     void program() throws Exception{
-        System.out.println("Entro program");
         if(tokenValue.equals("int") || tokenValue.equals("void")){
             declaration();
             declarationList();
         }else{
-            throw new GenericSyntaxException("Invalid beginning of file, must start with int or void Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: int or void");
         }
     }
 
     void declarationList() throws Exception{
-        System.out.println("Entro declarationList");
         if(tokenValue.equals("int") || tokenValue.equals("void")){
             declaration();
             declarationList();
         }else if (tokenValue.equals("$")){
             return;
         }else{
-            throw new GenericSyntaxException("Invalid declaration, must start with int or void Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: int, void or end of the file");
         }
     }
     
     void declaration() throws Exception{
-        System.out.println("Entro declaration");
         if(tokenValue.equals("int")){
             match("int");
             match("identifier");
@@ -79,12 +83,11 @@ public class Syntax {
             statementList();
             match("}");
         }else{
-            throw new GenericSyntaxException("Invalid declaration, must start with int or void Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: int or void");
         }
     }
 
     void declarationType() throws Exception{
-        System.out.println("Entro declarationType");
         if(tokenValue.equals(";") || tokenValue.equals("[")){
             varEnding();
         }else if(tokenValue.equals("(")){
@@ -98,12 +101,11 @@ public class Syntax {
             statementList();
             match("}");
         }else{
-            throw new GenericSyntaxException("Wrong variable or function declaration, expected [ ( or ; Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: [, ( or ;");
         }
     }
 
     void varEnding() throws Exception{
-        System.out.println("Entro varEnding");
         if(tokenValue.equals(";")){
             //Sets the type of identifier
             idTable.setIdentifierType(stream.get(tokenPointer-1).getSymbolEntry(), "int variable");
@@ -116,24 +118,22 @@ public class Syntax {
             match("]");
             match(";");
         }else{
-            throw new GenericSyntaxException("Wrong variable declaration, expected ; or [ Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: [ or ;");
         }
     }
     
     void params() throws Exception{
-        System.out.println("Entro params");
         if(tokenValue.equals("int")){
             param();
             paramsList();
         }else if(tokenValue.equals("void")){
             match("void");
         }else{
-            throw new GenericSyntaxException("Wrong function parameters, expected void or a list of parameter. Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: int or void");
         }
     }
 
     void paramsList() throws Exception{
-        System.out.println("Entro parmasList");
         if(tokenValue.equals(",")){
             match(",");
             param();
@@ -141,23 +141,21 @@ public class Syntax {
         }else if(tokenValue.equals(")")){
             return;
         }else{
-            throw new GenericSyntaxException("Wrong function parameters, expected , or ) Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: , or )");
         }
     }
 
     void param() throws Exception{
-        System.out.println("Entro param");
         if(tokenValue.equals("int")){
             match("int");
             match("identifier");
             paramEnding();
         }else{
-            throw new GenericSyntaxException("Wrong function parameters, expected an int declaration Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: int");
         }
     }
     
     void paramEnding() throws Exception{
-        System.out.println("Entro paramEnding");
         if(tokenValue.equals("[")){
             //Sets the type of identifier
             idTable.setIdentifierType(stream.get(tokenPointer-1).getSymbolEntry(), "int array");
@@ -168,12 +166,11 @@ public class Syntax {
             idTable.setIdentifierType(stream.get(tokenPointer-1).getSymbolEntry(), "int variable");
             return;
         }else{
-            throw new GenericSyntaxException("Wrong function parameters, invalid variable declaration Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: [, ) or ,");
         }
     }
 
     void localDeclarations() throws Exception{
-        System.out.println("Entro localDeclarations");
         if(tokenValue.equals("int")){
             match("int");
             match("identifier");
@@ -182,25 +179,22 @@ public class Syntax {
         }else if(tokenValue.equals("identifier") || tokenValue.equals("{") || tokenValue.equals("if") || tokenValue.equals("while") || tokenValue.equals("return") || tokenValue.equals("input") || tokenValue.equals("output") || tokenValue.equals("}")){
             return;
         }else{
-            throw new GenericSyntaxException("Wrong local declaration, expected a variable declaration, a statement or an end bracket. Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: int, identifier, if, while, return, input, output, { or }");
         }
     }
 
     void statementList() throws Exception{
-        System.out.println("Entro statementList");
         if(tokenValue.equals("identifier") || tokenValue.equals("{") || tokenValue.equals("if") || tokenValue.equals("while") || tokenValue.equals("return") || tokenValue.equals("input") || tokenValue.equals("output")){
             statement();
             statementList();
         }else if(tokenValue.equals("}")){
             return;
         }else{
-            System.out.println("Entro statement list");
-            throw new GenericSyntaxException("Wrong list of statements, expected a statement or an end bracket. Token: " + tokenPointer + " Value: " + tokenValue);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, if, while, return, input, output, { or }");
         }
     }
     
     void statement() throws Exception{
-        System.out.println("Entro statement");
         if(tokenValue.equals("identifier")){
             match("identifier");
             varOrCallStatement();
@@ -235,12 +229,11 @@ public class Syntax {
             expression();
             match(";");
         }else{
-            throw new GenericSyntaxException("Wrong beginning of statement. Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, if, while, return, input, output or {");
         }
     }
 
     void varOrCallStatement() throws Exception{
-        System.out.println("Entro varOrCallStatement");
         if(tokenValue.equals("=") || tokenValue.equals("[")){
             arrayPart();
             match("=");
@@ -252,12 +245,11 @@ public class Syntax {
             match(")");
             match(";");
         }else{
-            throw new GenericSyntaxException("Expected an assignation, an array or a function call Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: (, [ or =");
         }
     }
 
     void elsePart() throws Exception{
-        System.out.println("Entro else part");
         switch(tokenValue){
             case "else":
                 match("else");
@@ -274,24 +266,22 @@ public class Syntax {
                 break;
             default:
                 System.out.println("Entro else part");
-                throw new GenericSyntaxException("Wrong list of statements, expected a statement or an end bracket. Token: " + tokenPointer);
+                throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, if, else, while, return, input, output, { or }");
         }
     }
 
     void returnEnding() throws Exception{
-        System.out.println("Entro returnEnding");
         if(tokenValue.equals(";")){
             match(";");
         }else if(tokenValue.equals("(") || tokenValue.equals("identifier") || tokenValue.equals("number")){
             expression();
             match(";");
         }else{
-            throw new GenericSyntaxException("Wrong end of return, expected ; or an expression. Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, number, ( or ;");
         }
     }
 
     void arrayPart() throws Exception{
-        System.out.println("Entro arrayPart");
         switch(tokenValue){
             case "[":
                 match("[");
@@ -315,22 +305,20 @@ public class Syntax {
             case ")":
                 break;
             default:
-                throw new GenericSyntaxException("Expected an array, an addop, mulop, relop, = , ; , ',', ] or ) Token: " + tokenPointer);
+                throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: <=, <, >, >=, ==, !=, =, *, /, +, -, [, ], ), ; or ,");
         }
     }
 
     void expression() throws Exception{
-        System.out.println("Entro expression");
         if(tokenValue.equals("identifier") || tokenValue.equals("number") || tokenValue.equals("(")){
             arithmeticExpression();
             expressionEnding();
         }else{
-            throw new GenericSyntaxException("Wrong expression, expected an identifier, number or ( Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, number or (");
         }
     }
     
     void expressionEnding() throws Exception{
-        System.out.println("Entro expressionEnding");
         switch(tokenValue){
             case "<=":
             case "<":
@@ -345,12 +333,11 @@ public class Syntax {
             case ";":
                 break;
             default:
-                throw new GenericSyntaxException("Wrong end of expression, expected a relop, ; or ). Token: " + tokenPointer);
+                throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: <=, <, >, >=, ==, !=, ) or ;");
         }
     }
 
     void relop() throws Exception{
-        System.out.println("Entro relop");
         switch(tokenValue){
             case "<=":
                 match("<=");
@@ -371,22 +358,20 @@ public class Syntax {
                 match("!=");
                 break;
             default:
-                throw new GenericSyntaxException("Wrong relop. Token: " + tokenPointer);
+                throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: <=, <, >, >=, == or !=");
         }
     }
 
     void arithmeticExpression() throws Exception{
-        System.out.println("Entro arithmeticExpression");
         if(tokenValue.equals("(") || tokenValue.equals("identifier") || tokenValue.equals("number")){
             term();
             arithmeticLoop();
         }else{
-            throw new GenericSyntaxException("Wrong arithmetic expression, expected an identifier, number or (. Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, number or (");
         }
     }
     
     void arithmeticLoop() throws Exception{
-        System.out.println("Entro arithmeticLoop");
         switch(tokenValue){
             case "+":
             case "-":
@@ -406,33 +391,30 @@ public class Syntax {
             case ")":
                 break;
             default:
-                throw new GenericSyntaxException("Wrong arithmetic loop, expected an addop, relop, ',', ; , ] or ) Token: " + tokenPointer);
+                throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: <=, <, >, >=, ==, !=, +, -, ], ), ; or ,");
         }
     }
 
     void addop() throws Exception{
-        System.out.println("Entro addop");
         if(tokenValue.equals("+")){
             match("+");
         }else if(tokenValue.equals("-")){
             match("-");
         }else{
-            throw new GenericSyntaxException("Wrong addop, expected + or -");
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: + or -");
         }
     }
 
     void term() throws Exception{
-        System.out.println("Entro term");
         if(tokenValue.equals("(") || tokenValue.equals("identifier") || tokenValue.equals("number")){
             factor();
             termLoop();
         }else{
-            throw new GenericSyntaxException("Wrong term, expected an identifier, a number or ( Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, number or (");
         }
     }
     
     void termLoop() throws Exception{
-        System.out.println("Entro termLoop");
         switch(tokenValue){
             case "/":
             case "*":
@@ -454,23 +436,21 @@ public class Syntax {
             case ")":
                 break;
             default:
-                throw new GenericSyntaxException("Wrong term loop, expected a mulop, addop, relop, ',', ;, ], ) Token: " + tokenPointer + " Value: " + tokenValue);
+                throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: <=, <, >, >=, ==, !=, *, /, +, -, ], ), ; or ,");
         }
     }
 
     void mulop() throws Exception{
-        System.out.println("Entro mulop");
         if(tokenValue.equals("/")){
             match("/");
         }else if(tokenValue.equals("*")){
             match("*");
         }else{
-            throw new GenericSyntaxException("Wrong mulop, expected * or / Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: * or /");
         }
     }
 
     void factor() throws Exception{
-        System.out.println("Entro factor");
         if(tokenValue.equals("number")){
             match("number");
         }else if(tokenValue.equals("identifier")){
@@ -481,12 +461,11 @@ public class Syntax {
             arithmeticExpression();
             match(")");
         }else{
-            throw new GenericSyntaxException("Wrong factor, expected an identifier, number or ( Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, number or (");
         }
     }
     
     void varOrCall() throws Exception{
-        System.out.println("Entro varOrCall");
         switch(tokenValue){
             case "(":
                 match("(");
@@ -511,33 +490,30 @@ public class Syntax {
                 arrayPart();
                 break;
             default:
-                throw new GenericSyntaxException("Wrong variable or call declaration, expected a mulop, addop, relop, array, ',', ;, ], (, ) Token: " + tokenPointer + " Value xzv: " + tokenValue);
+                throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: <=, <, >, >=, ==, !=, *, /, +, -, [, ], (, ), ; or ,");
         }
     }
 
     void args() throws Exception{
-        System.out.println("Entro args");
         if(tokenValue.equals("(") || tokenValue.equals("identifier") || tokenValue.equals("number")){
             argsList();
         }else if(tokenValue.equals(")")){
             return;
         }else{
-            throw new GenericSyntaxException("Wrong arguments, expected an identifier, a number or ( Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, number, ( or )");
         }
     }
 
     void argsList() throws Exception{
-        System.out.println("Entro argsList");
         if(tokenValue.equals("(") || tokenValue.equals("identifier") || tokenValue.equals("number")){
             arithmeticExpression();
             argsLoop();
         }else{
-            throw new GenericSyntaxException("Wrong arguments, expected an identifier, a number or ( Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: identifier, number or (");
         }
     }
 
     void argsLoop() throws Exception{
-        System.out.println("Entro argsLoop");
         if(tokenValue.equals(",")){
             match(",");
             arithmeticExpression();
@@ -545,7 +521,7 @@ public class Syntax {
         }else if(tokenValue.equals(")")){
             return;
         }else{
-            throw new GenericSyntaxException("Wrong arguments loop, expected , or ) Token: " + tokenPointer);
+            throw new GenericSyntaxException("At line: " + stream.get(tokenPointer).getLine() + " unexpected token: " + tokenValue +", expected: ) or ,");
         }
     }
 }
