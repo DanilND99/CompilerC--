@@ -22,7 +22,7 @@ public class Lexical {
     analyze recieves a line of the file and the tables to determinate and store all the symbols in the line,
     it can also maintain a comment state through multiple calls if needed.
     */
-    public void analyze(String line, Table tokTable, Table idTable, Table numTable, ArrayList<Token> stream) throws Exception{
+    public void analyze(String line, Table tokTable, Table idTable, Table numTable, ArrayList<Token> stream, int lineNumber) throws Exception{
         char character;
         int currentType;
         //Iterates through the characters in the line.
@@ -85,7 +85,7 @@ public class Lexical {
                         }
                     }
                     //Create and add the token to the stream.
-                    stream.add(new Token(tokenEntry, symbolEntry));
+                    stream.add(new Token(tokenEntry, symbolEntry, lineNumber));
                     previous = character;
                     //If the current character is a special symbol, then clean the lexem and add it.
                     if(currentType == 3){
@@ -125,7 +125,7 @@ public class Lexical {
                     //Add the previous lexem into the token table.
                     tokenEntry = tokTable.getAndSetToken(lexem, lexType);
                     //Add the token into the stream.
-                    stream.add(new Token(tokenEntry, symbolEntry));
+                    stream.add(new Token(tokenEntry, symbolEntry, lineNumber));
                     previous = character;
                     //If the current character is a whitespace, clean the lexem and set type to none.
                     if(currentType == 5){
@@ -181,7 +181,7 @@ public class Lexical {
                     break;
             }
             //Add the token to the stream.
-            stream.add(new Token(tokenEntry, symbolEntry));
+            stream.add(new Token(tokenEntry, symbolEntry, lineNumber));
             //Clean the lexem, set previous to whitespace, and set the lexem type to none.
             lexType = 0;
             lexem = "";

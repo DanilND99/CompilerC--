@@ -10,6 +10,6 @@ public class GenericSyntaxException extends Exception{
         super("Syntax Exception: Generic Error");
     }
     public GenericSyntaxException(String message){
-        super(message);
+        super("Syntax Exception: " + message);
     }
 }
