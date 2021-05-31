@@ -1,0 +1,5 @@
+Expected:
+Syntax Exception: At line: 9 unexpected token: int, expected: identifier, if, while, return, input, output, { or }
+
+Actual:
+Syntax Exception: At line: 9 unexpected token: int, expected: identifier, if, while, return, input, output, { or }

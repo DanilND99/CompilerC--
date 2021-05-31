@@ -1,0 +1,11 @@
+int x[10];
+int fun(){
+    int i;
+    i=0;
+    while(i != 10){
+        x[i] = i+1;
+        i = i + 1;
+    }
+    int d;
+    return x[10];
+}

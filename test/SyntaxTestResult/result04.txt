@@ -1,0 +1,17 @@
+Expected:
+------Identifier Symbol Table------
+Entry: 1   Value: a   Type: int variable
+Entry: 2   Value: b   Type: int variable
+Entry: 3   Value: c   Type: int variable
+Entry: 4   Value: main   Type: void function
+
+Syntax Analysis finished, no errors found.
+
+Actual:
+------Identifier Symbol Table------
+Entry: 1   Value: a   Type: int variable
+Entry: 2   Value: b   Type: int variable
+Entry: 3   Value: c   Type: int variable
+Entry: 4   Value: main   Type: void function
+
+Syntax Analysis finished, no errors found.

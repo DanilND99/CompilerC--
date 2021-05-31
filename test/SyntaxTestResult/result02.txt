@@ -1,0 +1,5 @@
+Expected:
+Syntax Exception: At line: 4 unexpected token: (, expected: [, ) or ,
+
+Actual:
+Syntax Exception: At line: 4 unexpected token: (, expected: [, ) or ,

@@ -1,8 +1,9 @@
 package com.analyzers;
 import java.util.ArrayList;
 import com.utils.*;
-import com.exceptions.*;
+import com.exceptions.GenericSyntaxException;
 public class Syntax {
+    //Variables to maintain the pointer to the token stream and the current token to match.
     int tokenPointer = 0;
     String tokenValue;
     //Copies of the tables and stream to not pass them in every function.
@@ -15,13 +16,18 @@ public class Syntax {
     public void syntaxMain(Table tokTable, Table idTable, Table numTable, ArrayList<Token> stream) throws Exception{
         //Add the end of file token
         stream.add(new Token(tokTable.getAndSetToken("$", 3), 0));
+        //Copy all the parameters
         this.tokTable = tokTable;
         this.idTable = idTable;
         this.numTable = numTable;
         this.stream = stream;
+        //Get the first token
         tokenValue = tokTable.getValue(stream.get(tokenPointer).getTokenEntry());
+        //Start the recursive descent algorithm
         program();
+        //Check for the end of file token.
         if(tokenValue.equals("$")){
+            //Update the Identifier Symbol Table
             idTable = this.idTable;
             idTable.printIdentifierTable();
             System.out.println("Syntax Analysis finished, no errors found.");
