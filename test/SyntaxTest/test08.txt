@@ -1,0 +1,11 @@
+int a;
+void main(void){
+    int b;
+    int c;
+    input a;
+    input b;
+    c = a + b;
+    output c;
+    c;
+    return;
+}

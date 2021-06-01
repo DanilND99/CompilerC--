@@ -1,0 +1,5 @@
+Expected:
+Syntax Exception: At line: 2 unexpected token: identifier, expected: int, void or end of the file
+
+Actual:
+Syntax Exception: At line: 2 unexpected token: identifier, expected: int, void or end of the file

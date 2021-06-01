@@ -1,0 +1,57 @@
+Expected:
+------Identifier Symbol Table------
+Entry: 1   Value: x   Type: None
+Entry: 2   Value: miniloc   Type: None
+Entry: 3   Value: a   Type: None
+Entry: 4   Value: low   Type: None
+Entry: 5   Value: high   Type: None
+Entry: 6   Value: i   Type: None
+Entry: 7   Value: k   Type: None
+Entry: 8   Value: sort   Type: None
+Entry: 9   Value: t   Type: None
+Entry: 10   Value: minloc   Type: None
+Entry: 11   Value: I   Type: None
+Entry: 12   Value: main   Type: None
+
+------Identifier Symbol Table------
+Entry: 1   Value: x   Type: int variable
+Entry: 2   Value: miniloc   Type: int function
+Entry: 3   Value: a   Type: int array
+Entry: 4   Value: low   Type: int variable
+Entry: 5   Value: high   Type: int variable
+Entry: 6   Value: i   Type: int variable
+Entry: 7   Value: k   Type: int variable
+Entry: 8   Value: sort   Type: void function
+Entry: 9   Value: t   Type: int variable
+Entry: 10   Value: minloc   Type: None
+Entry: 11   Value: I   Type: None
+Entry: 12   Value: main   Type: void function
+
+Actual:
+------Identifier Symbol Table------
+Entry: 1   Value: x   Type: None
+Entry: 2   Value: miniloc   Type: None
+Entry: 3   Value: a   Type: None
+Entry: 4   Value: low   Type: None
+Entry: 5   Value: high   Type: None
+Entry: 6   Value: i   Type: None
+Entry: 7   Value: k   Type: None
+Entry: 8   Value: sort   Type: None
+Entry: 9   Value: t   Type: None
+Entry: 10   Value: minloc   Type: None
+Entry: 11   Value: I   Type: None
+Entry: 12   Value: main   Type: None
+
+------Identifier Symbol Table------
+Entry: 1   Value: x   Type: int variable
+Entry: 2   Value: miniloc   Type: int function
+Entry: 3   Value: a   Type: int array
+Entry: 4   Value: low   Type: int variable
+Entry: 5   Value: high   Type: int variable
+Entry: 6   Value: i   Type: int variable
+Entry: 7   Value: k   Type: int variable
+Entry: 8   Value: sort   Type: void function
+Entry: 9   Value: t   Type: int variable
+Entry: 10   Value: minloc   Type: None
+Entry: 11   Value: I   Type: None
+Entry: 12   Value: main   Type: void function
